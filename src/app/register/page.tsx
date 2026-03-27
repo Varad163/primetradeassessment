@@ -35,7 +35,6 @@ export default function RegisterPage() {
       } else {
         setSuccess("Account created successfully ✅")
 
-        // redirect after short delay
         setTimeout(() => {
           router.push("/login")
         }, 1000)
@@ -48,12 +47,14 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
+    <div className="flex min-h-screen items-center justify-center bg-gray-100 text-black">
       <form
         onSubmit={handleRegister}
-        className="bg-white p-8 rounded-xl shadow-md w-96"
+        className="bg-white p-8 rounded-xl shadow-md w-96 text-black"
       >
-        <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center text-black">
+          Register
+        </h2>
 
         {error && (
           <p className="text-red-500 text-sm mb-4 text-center">{error}</p>
@@ -68,7 +69,7 @@ export default function RegisterPage() {
         <input
           type="email"
           placeholder="Email"
-          className="w-full mb-4 p-2 border rounded"
+          className="w-full mb-4 p-2 border rounded text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-black"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -77,7 +78,7 @@ export default function RegisterPage() {
         <input
           type="password"
           placeholder="Password"
-          className="w-full mb-4 p-2 border rounded"
+          className="w-full mb-4 p-2 border rounded text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-black"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
@@ -86,12 +87,12 @@ export default function RegisterPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-black text-white p-2 rounded hover:bg-gray-800"
+          className="w-full bg-black text-white p-2 rounded hover:bg-gray-800 transition"
         >
           {loading ? "Registering..." : "Register"}
         </button>
 
-        <p className="text-sm mt-4 text-center">
+        <p className="text-sm mt-4 text-center text-black">
           Already have an account?{" "}
           <Link href="/login" className="text-blue-500">
             Login
