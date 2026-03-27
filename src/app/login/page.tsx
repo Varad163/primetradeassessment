@@ -13,26 +13,37 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-    setError("")
+ const handleLogin = async (e: React.FormEvent) => {
+  e.preventDefault()
+  setLoading(true)
+  setError("")
 
-    const res = await signIn("credentials", {
-      email,
-      password,
-      redirect: false,
-    })
+  const res = await signIn("credentials", {
+    email,
+    password,
+    redirect: false,
+  })
 
-    setLoading(false)
+  setLoading(false)
 
-    if (res?.error) {
-      setError(res.error)
-    } else {
-      router.push("/dashboard")
-    }
+  if (res?.error) {
+    setError(res.error)
+    return
   }
 
+  // 🔥 FETCH SESSION
+  const sessionRes = await fetch("/api/auth/session")
+  const session = await sessionRes.json()
+
+  console.log("ROLE:", session.user?.role) // 🔍 debug
+
+  // 🔥 ROLE-BASED REDIRECT
+  if (session.user?.role === "ADMIN") {
+    router.push("/admin")
+  } else {
+    router.push("/dashboard")
+  }
+}
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <form

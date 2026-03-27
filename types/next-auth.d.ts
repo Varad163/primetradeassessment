@@ -1,12 +1,11 @@
 import { PrismaClient } from "@prisma/client"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { compare } from "bcrypt"
-import { NextAuthOptions } from "next-auth"
-import { JWT } from "next-auth/jwt"
+import session from "../../types/next-auth"
 
 const prisma = new PrismaClient()
 
-export const authOptions: NextAuthOptions = {
+export const authOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -16,18 +15,14 @@ export const authOptions: NextAuthOptions = {
       },
 
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          return null
-        }
-
         const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
+          where: { email: credentials?.email },
         })
 
         if (!user) return null
 
         const isValid = await compare(
-          credentials.password,
+          credentials!.password,
           user.password
         )
 
@@ -43,24 +38,18 @@ export const authOptions: NextAuthOptions = {
   ],
 
   callbacks: {
-    async jwt({ token, user }: { token: JWT; user?: any }) {
+    async jwt({ token, user }) {
       if (user) {
         token.id = user.id
-        token.role = user.role
+        token.role = user.role // ✅ STORE ROLE
       }
       return token
     },
 
-    async session({
-      session,
-      token,
-    }: {
-      session: any
-      token: JWT
-    }) {
+    async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id
-        session.user.role = token.role
+        session.user.role = token.role // ✅ ADD ROLE TO SESSION
       }
       return session
     },
