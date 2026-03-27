@@ -50,10 +50,20 @@ export default function LoginPage() {
       onSubmit={handleLogin}
       className="bg-white p-8 rounded-xl shadow-md w-96 text-black"
     >
-      <h2 className="text-2xl font-bold mb-6 text-center text-black">
-        Login
-      </h2>
+      <h2 className="text-2xl font-bold mb-4 text-center text-black">
+  Login
+</h2>
 
+{/* 🔥 Admin Demo Box */}
+<div className="bg-gray-100 border border-gray-300 rounded-lg p-3 mb-4 text-sm text-black">
+  <p className="font-semibold mb-1">Admin Demo</p>
+  <p>
+    Email: <span className="font-mono">john@gmail.com</span>
+  </p>
+  <p>
+    Password: <span className="font-mono">123456</span>
+  </p>
+</div>
       {error && (
         <p className="text-red-500 text-sm mb-4 text-center">{error}</p>
       )}
